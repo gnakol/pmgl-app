@@ -1,0 +1,103 @@
+version: '3.8'
+
+services:
+  # =============================================
+  # BASE DE DONNÉES PRINCIPALE PMGL
+  # =============================================
+  pmgl_db:
+    image: postgres:15
+    container_name: pmgl_db
+    environment:
+      POSTGRES_DB: pmgl
+      POSTGRES_USER: pmgl_user
+      POSTGRES_PASSWORD: pmgl_password
+    volumes:
+      - pmgl_db_data:/var/lib/postgresql/data
+      - ./init-scripts/:/docker-entrypoint-initdb.d/  # Pour exécuter notre script SQL
+    ports:
+      - "5432:5432"
+    networks:
+      - pmgl_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pmgl_user -d pmgl"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # =============================================
+  # KEYCLOAK - AUTHENTIFICATION
+  # =============================================
+  keycloak_db:
+    image: postgres:15
+    container_name: pmgl_keycloak_db
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: keycloak_password
+    volumes:
+      - keycloak_db_data:/var/lib/postgresql/data
+    networks:
+      - pmgl_network
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:22.0.5
+    container_name: pmgl_keycloak
+    environment:
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://keycloak_db:5432/keycloak
+      KC_DB_USERNAME: keycloak
+      KC_DB_PASSWORD: keycloak_password
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_HOSTNAME: localhost
+      KC_HOSTNAME_PORT: 8081
+      KC_HOSTNAME_STRICT_BACKCHANNEL: "true"
+      KC_HTTP_ENABLED: "true"
+    command: start-dev
+    ports:
+      - "8081:8080"
+    depends_on:
+      keycloak_db:
+        condition: service_healthy
+    networks:
+      - pmgl_network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health/ready"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  # =============================================
+  # SERVEUR SMTP - EMAILS
+  # =============================================
+  smtp_server:
+    image: mailhog/mailhog:latest
+    container_name: pmgl_smtp
+    ports:
+      - "1025:1025"  # Port SMTP
+      - "8025:8025"  # Interface Web MailHog
+    networks:
+      - pmgl_network
+
+  # =============================================
+  # ADMINER - INTERFACE DB
+  # =============================================
+  adminer:
+    image: adminer:4.8.1
+    container_name: pmgl_adminer
+    ports:
+      - "8080:8080"
+    environment:
+      ADMINER_DEFAULT_SERVER: pmgl_db
+    networks:
+      - pmgl_network
+    depends_on:
+      - pmgl_db
+
+volumes:
+  pmgl_db_data:
+  keycloak_db_data:
+
+networks:
+  pmgl_network:
+    name: pmgl_network
