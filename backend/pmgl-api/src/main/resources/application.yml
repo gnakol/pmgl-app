@@ -1,0 +1,65 @@
+server:
+  port: 9000
+  address: 0.0.0.0
+  servlet:
+    context-path: /pmgl-api
+
+spring:
+  application:
+    name: pmgl-api
+  datasource:
+    url: jdbc:postgresql://localhost:5432/pmgl
+    username: pmgl_user
+    password: pmgl_password
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+  mail:
+    host: localhost
+    port: 1025
+    username: ""
+    password: ""
+    properties:
+      mail:
+        smtp:
+          auth: false
+          starttls:
+            enable: false
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8081/realms/pmgl
+
+# Keycloak Configuration
+keycloak:
+  server-url: http://localhost:8081
+  realm: pmgl
+  client-id: pmgl-api
+  client-secret: "V8NWhFQ6fUhmE4IC66VPzr29cU9bO80G"
+  admin-username: admin
+  admin-password: admin
+  front-client-id: pmgl-frontend
+
+# File Upload Configuration
+app:
+  upload:
+    directory: ./uploads
+    max-file-size: 50MB
+  cors:
+    allowed-origins: "http://localhost:4200,http://localhost:3000"
+
+# Logging
+logging:
+  level:
+    fr.mecanique.pmgl: DEBUG
+    org.springframework.security: INFO
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
