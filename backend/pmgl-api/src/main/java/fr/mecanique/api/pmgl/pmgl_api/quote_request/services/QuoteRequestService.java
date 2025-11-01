@@ -7,18 +7,23 @@ import fr.mecanique.api.pmgl.pmgl_api.quote_request.bean.QuoteRequest;
 import fr.mecanique.api.pmgl.pmgl_api.quote_request.bean.QuoteRequestCreatedEvent;
 import fr.mecanique.api.pmgl.pmgl_api.quote_request.bean.QuoteRequestItem;
 import fr.mecanique.api.pmgl.pmgl_api.quote_request.dto.CreateQuoteRequestDTO;
+import fr.mecanique.api.pmgl.pmgl_api.quote_request.dto.QuoteRequestDTO;
 import fr.mecanique.api.pmgl.pmgl_api.quote_request.enums.MatiereType;
 import fr.mecanique.api.pmgl.pmgl_api.quote_request.repositories.QuoteRequestItemRepository;
 import fr.mecanique.api.pmgl.pmgl_api.quote_request.repositories.QuoteRequestRepository;
 import fr.mecanique.api.pmgl.pmgl_api.admin.mail.MailServiceAdmin;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -145,4 +150,70 @@ public class QuoteRequestService {
                 );
         }
     }
+
+    // Dans QuoteRequestService
+
+    public Page<QuoteRequestDTO> getAllQuoteRequests(Pageable pageable) {
+        Page<QuoteRequest> quoteRequests = quoteRequestRepository.findAll(pageable);
+        return quoteRequests.map(this::mapToDTO);
+    }
+
+    public QuoteRequestDTO getQuoteRequestByClientId(Long clientId) {
+        QuoteRequest quoteRequest = quoteRequestRepository.findAll().stream()
+                .filter(qr -> qr.getClient() != null && qr.getClient().getId().equals(clientId))
+                .findFirst()
+                .orElseThrow(() -> new EntityNotFoundException("Aucune demande de devis trouvée pour le client: " + clientId));
+
+        return mapToDTO(quoteRequest);
+    }
+
+    private QuoteRequestDTO mapToDTO(QuoteRequest quoteRequest) {
+        QuoteRequestDTO dto = new QuoteRequestDTO();
+        dto.setId(quoteRequest.getId());
+        dto.setStatut(quoteRequest.getStatut());
+        dto.setNotesGlobales(quoteRequest.getNotesGlobales());
+        dto.setCreatedAt(quoteRequest.getCreatedAt());
+
+        if (quoteRequest.getClient() != null) {
+            dto.setClientId(quoteRequest.getClient().getId());
+            QuoteRequestDTO.ClientInfoDTO clientInfo = new QuoteRequestDTO.ClientInfoDTO();
+            clientInfo.setCivility(quoteRequest.getClient().getAccount().getCivility());
+            clientInfo.setFirstName(quoteRequest.getClient().getAccount().getFirstName());
+            clientInfo.setLastName(quoteRequest.getClient().getAccount().getName());
+            clientInfo.setEmail(quoteRequest.getClient().getAccount().getEmail());
+            clientInfo.setTelephone(quoteRequest.getClient().getTelephone());
+            clientInfo.setAdresse(quoteRequest.getClient().getAdresse());
+            clientInfo.setTypeClient(quoteRequest.getClient().getTypeClient());
+            clientInfo.setRaisonSociale(quoteRequest.getClient().getRaisonSociale());
+            clientInfo.setSiret(quoteRequest.getClient().getSiret());
+            dto.setClient(clientInfo);
+        }
+
+        // Récupérer les items
+        List<QuoteRequestDTO.ItemDTO> items = itemRepository.findByQuoteRequest_Id(quoteRequest.getId().intValue())
+                .stream()
+                .map(this::mapItemToDTO)
+                .toList();
+        dto.setItems(items);
+
+        return dto;
+    }
+
+    private QuoteRequestDTO.ItemDTO mapItemToDTO(QuoteRequestItem item) {
+        QuoteRequestDTO.ItemDTO itemDTO = new QuoteRequestDTO.ItemDTO();
+        itemDTO.setId(item.getId());
+        itemDTO.setNomPiece(item.getNomPiece());
+        itemDTO.setTypePiece(item.getTypePiece());
+        itemDTO.setMatiere(item.getMatiere() != null ? item.getMatiere().name() : null);
+        itemDTO.setDimensions(item.getDimensions());
+        itemDTO.setTolerance(item.getTolerance());
+        itemDTO.setFinition(item.getFinition());
+        itemDTO.setTraitement(item.getTraitement());
+        itemDTO.setQuantite(item.getQuantite());
+        itemDTO.setDelaiSouhaite(item.getDelaiSouhaite());
+        itemDTO.setDescriptionLigne(item.getDescriptionLigne());
+        itemDTO.setUrgence(item.getUrgence());
+        return itemDTO;
+    }
+
 }

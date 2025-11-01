@@ -49,7 +49,7 @@ public class AdminService {
                 .build();
         account = this.accountRepository.save(account);
 
-        // 2. Générer le token d’invitation (mets role en minuscule)
+        // 2. Générer le token d’invitation (role en minuscule)
         String token = this.jwtService.generateInvitationToken(Map.of(
                 "email", account.getEmail(),
                 "ref", account.getReferenceAccount(),

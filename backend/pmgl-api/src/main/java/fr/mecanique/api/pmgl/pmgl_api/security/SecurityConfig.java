@@ -39,9 +39,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/authenticate/login-dev").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/authenticate/login-admin").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/authenticate/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/admin/confirm-invitation-admin").permitAll()
                         .requestMatchers(HttpMethod.POST, "/quotes/quote-request").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/client/confirm-invite-client").permitAll()
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 ->
@@ -53,10 +54,10 @@ public class SecurityConfig {
                             if (
                                     "/api/admin/confirm-invitation-admin".equals(path)
                                             || "/api/admin/invite".equals(path)
-                                            || "/api/company/confirm-invitation-recruiter".equals(path)
+                                            || "/api/company/confirm-invitation".equals(path)
 
                             ) {
-                                response.setStatus(HttpServletResponse.SC_OK); // ou NO_CONTENT si tu veux
+                                response.setStatus(HttpServletResponse.SC_OK);
                             } else {
                                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, authException.getMessage());
                             }

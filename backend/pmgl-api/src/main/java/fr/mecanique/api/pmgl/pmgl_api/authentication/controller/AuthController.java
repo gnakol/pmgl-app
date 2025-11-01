@@ -39,7 +39,7 @@ public class AuthController {
         return ResponseEntity.ok(Map.of("token", token));
     }
 
-    @PostMapping("/login-admin")
+    @PostMapping("/login")
     public ResponseEntity<Map<String, String>> loginAdmin(@RequestBody LoginRequestDTO loginRequest) {
         String token = this.authenticateUser.authenticateUser(loginRequest);
 
@@ -49,7 +49,8 @@ public class AuthController {
 
         // ✅ Vérifie si le token contient l'un des rôles autorisés
         if (!this.keycloakAdminService.hasRealmRole(token, "ADMIN") &&
-                !this.keycloakAdminService.hasRealmRole(token, "SUPER-ADMIN")) {
+                !this.keycloakAdminService.hasRealmRole(token, "SUPER-ADMIN") &&
+                !this.keycloakAdminService.hasRealmRole(token, "CUSTOMER")) {
 
             return ResponseEntity.status(HttpStatus.FORBIDDEN)
                     .body(Map.of("error", "Accès réservé aux administrateurs."));

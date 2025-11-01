@@ -50,6 +50,7 @@ keycloak:
 
 # File Upload Configuration
 app:
+  front-url: http://localhost:3000
   upload:
     directory: ./uploads
     max-file-size: 50MB

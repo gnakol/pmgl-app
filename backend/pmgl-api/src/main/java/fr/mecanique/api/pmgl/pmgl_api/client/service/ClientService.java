@@ -5,6 +5,7 @@ import fr.mecanique.api.pmgl.pmgl_api.account.enums.AccountType; // assure-toi d
 import fr.mecanique.api.pmgl.pmgl_api.account.repositorie.AccountRepository;
 import fr.mecanique.api.pmgl.pmgl_api.client.bean.Client;
 import fr.mecanique.api.pmgl.pmgl_api.client.enums.TypeClient;
+import fr.mecanique.api.pmgl.pmgl_api.client.keycloak.KeycloakClientService;
 import fr.mecanique.api.pmgl.pmgl_api.client.repositorie.ClientRepository;
 import fr.mecanique.api.pmgl.pmgl_api.quote_request.dto.CreateQuoteRequestDTO.ApplicantDTO;
 import fr.mecanique.api.pmgl.pmgl_api.quote_request.repositories.QuoteRequestRepository;
@@ -24,6 +25,7 @@ public class ClientService {
     private final ClientRepository clientRepository;
     private final UuidService uuidService;
     private final QuoteRequestRepository quoteRequestRepository;
+    private final KeycloakClientService keycloakClientService;
 
     /**
      * 1) Si clientId fourni -> retourne le Client existant (404 sinon)
@@ -84,12 +86,23 @@ public class ClientService {
         Client client = clientRepository.findById(clientId)
                 .orElseThrow(() -> new EntityNotFoundException("Client introuvable: " + clientId));
 
-        // 1) Supprimer toutes les demandes de devis de ce client
+        // 1️⃣ Supprimer toutes les demandes de devis de ce client
         quoteRequestRepository.deleteAllByClientId(clientId);
 
-        // 2) Supprimer l'account -> cascade supprime le client (FK ON DELETE CASCADE)
+        // 2️⃣ Supprimer le compte dans Keycloak
+        try {
+            if (client.getAccount() != null && client.getAccount().getEmail() != null) {
+                keycloakClientService.deleteClientUser(client.getAccount().getEmail());
+            }
+        } catch (Exception e) {
+            System.err.println("⚠️ Erreur lors de la suppression Keycloak : " + e.getMessage());
+        }
+
+        // 3️⃣ Supprimer l'account local
         Long accountId = client.getAccount().getId();
         accountRepository.deleteById(accountId);
+
+        System.out.println("✅ Client supprimé localement et dans Keycloak : " + client.getAccount().getEmail());
     }
 }
 

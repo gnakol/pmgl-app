@@ -1,12 +1,15 @@
 package fr.mecanique.api.pmgl.pmgl_api.admin.mail;
 
 import fr.mecanique.api.pmgl.pmgl_api.client.bean.Client;
+import fr.mecanique.api.pmgl.pmgl_api.devis.bean.Devis;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
 
 @Service
 @RequiredArgsConstructor
@@ -36,6 +39,33 @@ public class MailServiceAdmin {
                 client.getAccount().getName(),
                 client.getAccount().getEmail(),
                 itemsCount
+        );
+
+        sendEmail("inbox@pmgl.fr", subject, content);
+    }
+
+    public void notifyDevisCreated(Devis devis, int lignesCount) {
+        String subject = "🧾 Devis " + devis.getNumeroDevis() + " créé avec succès";
+        String content = """
+            Bonjour Michel,
+
+            Vous venez de créer un nouveau devis.
+
+            • Numéro: %s
+            • Client: %s %s (%s)
+            • Nombre de lignes: %d
+            • Montant HT: %.2f €
+            • Statut: %s
+
+            — PMGL Bot
+            """.formatted(
+                devis.getNumeroDevis(),
+                devis.getClient().getAccount().getFirstName(),
+                devis.getClient().getAccount().getName(),
+                devis.getClient().getAccount().getEmail(),
+                lignesCount,
+                devis.getMontantHt() != null ? devis.getMontantHt() : BigDecimal.ZERO,
+                devis.getStatut()
         );
 
         sendEmail("inbox@pmgl.fr", subject, content);
