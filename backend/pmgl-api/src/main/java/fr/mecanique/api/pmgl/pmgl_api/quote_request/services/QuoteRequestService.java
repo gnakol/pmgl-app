@@ -5,10 +5,13 @@ import fr.mecanique.api.pmgl.pmgl_api.client.mail.MailServiceClient;
 import fr.mecanique.api.pmgl.pmgl_api.client.service.ClientService;
 import fr.mecanique.api.pmgl.pmgl_api.quote_request.bean.QuoteRequest;
 import fr.mecanique.api.pmgl.pmgl_api.quote_request.bean.QuoteRequestCreatedEvent;
+import fr.mecanique.api.pmgl.pmgl_api.quote_request.bean.QuoteRequestFile;
 import fr.mecanique.api.pmgl.pmgl_api.quote_request.bean.QuoteRequestItem;
 import fr.mecanique.api.pmgl.pmgl_api.quote_request.dto.CreateQuoteRequestDTO;
 import fr.mecanique.api.pmgl.pmgl_api.quote_request.dto.QuoteRequestDTO;
+import fr.mecanique.api.pmgl.pmgl_api.quote_request.enums.FileKind;
 import fr.mecanique.api.pmgl.pmgl_api.quote_request.enums.MatiereType;
+import fr.mecanique.api.pmgl.pmgl_api.quote_request.repositories.QuoteRequestFileRepository;
 import fr.mecanique.api.pmgl.pmgl_api.quote_request.repositories.QuoteRequestItemRepository;
 import fr.mecanique.api.pmgl.pmgl_api.quote_request.repositories.QuoteRequestRepository;
 import fr.mecanique.api.pmgl.pmgl_api.admin.mail.MailServiceAdmin;
@@ -20,10 +23,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 @Service
 @RequiredArgsConstructor
@@ -31,38 +37,46 @@ public class QuoteRequestService {
 
     private final QuoteRequestRepository quoteRequestRepository;
     private final QuoteRequestItemRepository itemRepository;
+    private final QuoteRequestFileRepository fileRepository;
 
     private final ClientService clientService;
-    private final MailServiceClient mailServiceClient;
-    private final MailServiceAdmin mailServiceAdmin;
-
     private final ApplicationEventPublisher events;
+    private final FileStorageService fileStorage;
 
     @Transactional
     public Long createQuoteRequest(@Valid CreateQuoteRequestDTO dto) {
 
-        // 1) Résoudre le client (existant OU création account(status=false)+client)
+        // 0) Gardes-fous pour "entreprise"
+        if (dto.getClientId() == null && dto.getApplicant() != null
+                && dto.getApplicant().getTypeClient() != null
+                && dto.getApplicant().getTypeClient().name().equals("entreprise")) {
+            if (!StringUtils.hasText(dto.getApplicant().getRaisonSociale())
+                    || !StringUtils.hasText(dto.getApplicant().getSiret())) {
+                throw new IllegalArgumentException("Pour un client 'entreprise', 'raisonSociale' et 'siret' sont requis.");
+            }
+        }
+
+        // 1) Résoudre le client (existant OU création)
         Client client = clientService.resolveOrCreateClient(dto.getClientId(), dto.getApplicant());
 
-        // 2) Créer la QuoteRequest (statut par défaut DB = 'NOUVELLE')
+        // 2) Créer la QuoteRequest (statut DB par défaut: 'NOUVELLE')
         QuoteRequest toSave = QuoteRequest.builder()
                 .client(client)
-                .statut(null) // DB mettra 'NOUVELLE'
+                .statut(null) // DB DEFAULT
                 .notesGlobales(dto.getNotesGlobales())
                 .createdAt(LocalDateTime.now())
                 .build();
 
-        // IMPORTANT: capturer dans une variable finale (pour l'utiliser dans la boucle)
         final QuoteRequest savedReq = quoteRequestRepository.save(toSave);
 
-        // 3) Lignes
-        int itemsCount = 0;
+        // 3) Lignes — on garde les entités sauvegardées pour lier des fichiers par index
+        List<QuoteRequestItem> savedItems = new ArrayList<>();
         if (dto.getItems() != null) {
             for (var line : dto.getItems()) {
                 MatiereType matiereEnum = mapMatiere(line.getMatiere());
 
                 QuoteRequestItem item = QuoteRequestItem.builder()
-                        .client(client)              // NOT NULL en DB
+                        .client(client)
                         .quoteRequest(savedReq)
                         .nomPiece(line.getNomPiece())
                         .typePiece(line.getTypePiece())
@@ -78,29 +92,80 @@ public class QuoteRequestService {
                         .createdAt(LocalDateTime.now())
                         .build();
 
-                itemRepository.save(item);
-                itemsCount++;
+                savedItems.add(itemRepository.save(item));
             }
         }
 
-        // 4) Email client
-        String email = client.getAccount().getEmail();
-        String firstName = client.getAccount().getFirstName();
-       /* mailServiceClient.notifyQuoteRequestReceived(email, firstName);*/
+        // 4) Fichiers — globaux ou rattachés à une ligne (par itemIndex)
+        if (dto.getFiles() != null && !dto.getFiles().isEmpty()) {
+            for (var f : dto.getFiles()) {
+                if (!StringUtils.hasText(f.getContentBase64())) continue; // ignorer vide
 
-        // 5) Email interne pour Michel (admin)
-        /*mailServiceAdmin.notifyStaffNewQuoteRequest(savedReq.getId(), client, itemsCount);*/
+                FileKind kind = mapFileKind(f.getFileType());
+                FileStorageService.StoredFile stored;
+                try {
+                    stored = fileStorage.storeBase64(
+                            savedReq.getId(),
+                            f.getFileName(),
+                            f.getContentBase64()
+                    );
+                } catch (Exception e) {
+                    throw new IllegalArgumentException("Échec du stockage du fichier: " +
+                            (f.getFileName() != null ? f.getFileName() : "inconnu") + " — " + e.getMessage());
+                }
 
-        // ✅ Publier l’événement (traité AFTER_COMMIT dans le listener)
+                QuoteRequestItem linkedItem = null;
+                if (f.getItemIndex() != null) {
+                    int idx = f.getItemIndex();
+                    if (idx < 0 || idx >= savedItems.size()) {
+                        throw new IllegalArgumentException("itemIndex invalide pour le fichier '" +
+                                f.getFileName() + "': " + idx);
+                    }
+                    linkedItem = savedItems.get(idx);
+                }
+
+                QuoteRequestFile fileEntity = QuoteRequestFile.builder()
+                        .client(client)
+                        .quoteRequest(savedReq)
+                        .requestItem(linkedItem)
+                        .filePath(stored.path())
+                        .originalName(stored.originalName())
+                        .fileKind(kind)
+                        .mimeType(stored.mimeType())
+                        .sizeBytes(stored.sizeBytes())
+                        .uploadedAt(LocalDateTime.now())
+                        .build();
+
+                fileRepository.save(fileEntity);
+            }
+        }
+
+        // 5) Événement (AFTER_COMMIT)
         events.publishEvent(new QuoteRequestCreatedEvent(
                 savedReq.getId(),
                 client.getId(),
                 client.getAccount() != null ? client.getAccount().getEmail() : null,
                 client.getAccount() != null ? client.getAccount().getFirstName() : null,
-                itemsCount
+                savedItems.size()
         ));
 
         return savedReq.getId();
+    }
+
+    private FileKind mapFileKind(String raw) {
+        if (!StringUtils.hasText(raw)) return FileKind.AUTRE;
+        String norm = raw.trim().toUpperCase(Locale.ROOT);
+        try {
+            return FileKind.valueOf(norm);
+        } catch (IllegalArgumentException e) {
+            // Petits synonymes tolérés
+            return switch (norm) {
+                case "STEP", "STP", "3D" -> FileKind.MODELE_3D;
+                case "PDF", "DWG", "DXF", "PLAN" -> FileKind.PLAN_2D;
+                case "IMG", "IMAGE" -> FileKind.PHOTO;
+                default -> FileKind.AUTRE;
+            };
+        }
     }
 
     /**

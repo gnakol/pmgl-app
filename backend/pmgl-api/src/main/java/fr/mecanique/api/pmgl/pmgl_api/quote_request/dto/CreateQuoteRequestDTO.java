@@ -10,10 +10,7 @@ import java.util.List;
 @Data
 public class CreateQuoteRequestDTO {
 
-    // Si présent => on réutilise ce client. Sinon on crée compte+client avec "applicant"
     private Long clientId;
-
-    // Renseigné si clientId est null (nouveau prospect)
     private ApplicantDTO applicant;
 
     private String notesGlobales;
@@ -21,10 +18,13 @@ public class CreateQuoteRequestDTO {
     @NotNull @Size(min = 1, message = "Au moins une ligne de demande est requise")
     private List<ItemDTO> items;
 
+    // Fichiers techniques (optionnel)
+    private List<FileDTO> files;
+
     @Data
     public static class ApplicantDTO {
         // --- Données de base ---
-        @NotBlank private String civility;      // MR / MME (ton format)
+        @NotBlank private String civility;      // "MR", "MME", etc.
         @NotBlank private String firstName;
         @NotBlank private String lastName;
         @Email @NotBlank private String email;
@@ -35,26 +35,36 @@ public class CreateQuoteRequestDTO {
 
         // --- Nature du client ---
         @NotNull private TypeClient typeClient; // particulier | entreprise
-        private String raisonSociale;           // si entreprise
-        private String siret;                   // si entreprise
+
+        // Obligatoires si entreprise
+        private String raisonSociale;
+        private String siret;
     }
 
     @Data
     public static class ItemDTO {
         @NotBlank private String nomPiece;
         private String typePiece;
-        private String matiere;
+        private String matiere;     // libre -> mappée vers enum
         private String dimensions;
         private String tolerance;
         private String finition;
         private String traitement;
 
-        @NotNull @Positive(message = "quantite > 0") private Integer quantite;
+        @NotNull @Positive(message = "quantite > 0")
+        private Integer quantite;
 
         private LocalDate delaiSouhaite;
         private String descriptionLigne;
         private Boolean urgence;
     }
+
+    @Data
+    public static class FileDTO {
+        private String fileName;    // ex: "support_roulement.step"
+        private String fileType;    // "PLAN_2D", "MODELE_3D", "PHOTO", "AUTRE" (FileKind)
+        private String description; // libre
+        private String contentBase64; // -> évite byte[] en JSON brut
+        private Integer itemIndex;  // optionnel: lier à items[i], sinon global
+    }
 }
-
-

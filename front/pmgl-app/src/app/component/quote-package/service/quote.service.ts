@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpEvent } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { CreateQuoteRequestDTO } from '../model/create-quote-request.model';
 
@@ -12,6 +12,20 @@ export class QuoteService {
   constructor(private http: HttpClient) { }
 
   createQuoteRequest(quoteRequest: CreateQuoteRequestDTO): Observable<number> {
-    return this.http.post<number>(`${this.apiUrl}/quote-request`, quoteRequest);
+    // Pour l'instant on envoie sans fichiers, on les gérera plus tard
+    const requestWithoutFiles = {
+      ...quoteRequest,
+      files: undefined // On retire les fichiers pour l'instant
+    };
+    
+    return this.http.post<number>(`${this.apiUrl}/quote-request`, requestWithoutFiles);
+  }
+
+  // Méthode pour uploader les fichiers séparément (à implémenter plus tard)
+  uploadFiles(quoteId: number, files: FormData): Observable<HttpEvent<any>> {
+    return this.http.post<any>(`${this.apiUrl}/${quoteId}/files`, files, {
+      reportProgress: true,
+      observe: 'events'
+    });
   }
 }

@@ -2,6 +2,7 @@
   display: block;
 }
 
+// === ANIMATIONS FLUIDES ===
 .scale-95 {
   transform: scale(0.95);
   opacity: 0;
@@ -12,31 +13,140 @@
   opacity: 1;
 }
 
-// Animation smooth pour la modale
 .fixed {
   transition: opacity 0.3s ease-in-out;
 }
 
-// Scrollbar custom pour la modale
+// === ZONE DE DRAG & DROP ===
+.border-dashed {
+  transition: all 0.3s ease;
+  
+  &.drag-over {
+    border-color: #3b82f6;
+    background-color: #eff6ff;
+    transform: scale(1.02);
+  }
+}
+
+// === FICHIERS AVEC ANIMATIONS ===
+.file-item {
+  transition: all 0.2s ease-in-out;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px -1px rgba(0, 0, 0, 0.1);
+  }
+}
+
+// === BARRE DE PROGRESSION ===
+.progress-step {
+  transition: all 0.3s ease-in-out;
+  
+  &.active {
+    transform: scale(1.1);
+  }
+}
+
+// === LOADING SPINNER ===
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// === SCROLLBAR CUSTOM ===
 .max-h-\[60vh\] {
   scrollbar-width: thin;
   scrollbar-color: #cbd5e0 #f7fafc;
+  
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: #f7fafc;
+    border-radius: 3px;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: #cbd5e0;
+    border-radius: 3px;
+  }
+  
+  &::-webkit-scrollbar-thumb:hover {
+    background: #a0aec0;
+  }
 }
 
-.max-h-\[60vh\]::-webkit-scrollbar {
-  width: 6px;
+// === RESPONSIVE DESIGN ===
+@media (max-width: 768px) {
+  .max-w-4xl {
+    margin: 0.5rem;
+    max-height: 95vh;
+  }
+  
+  .grid-cols-1 {
+    grid-template-columns: 1fr;
+  }
+  
+  .p-6 {
+    padding: 1rem;
+  }
+  
+  // Cacher les labels des étapes sur mobile
+  .hidden-sm {
+    display: none;
+  }
+  
+  // Étapes plus compactes
+  .progress-step {
+    .text-sm {
+      font-size: 0.75rem;
+    }
+  }
 }
 
-.max-h-\[60vh\]::-webkit-scrollbar-track {
-  background: #f7fafc;
-  border-radius: 3px;
+// === EFFETS DE FOCUS AMÉLIORÉS ===
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  ring: 2px;
+  ring-color: #3b82f6;
 }
 
-.max-h-\[60vh\]::-webkit-scrollbar-thumb {
-  background: #cbd5e0;
-  border-radius: 3px;
+// === TRANSITIONS POUR LES BOUTONS ===
+button {
+  transition: all 0.2s ease-in-out;
+  
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+  
+  &:not(:disabled):hover {
+    transform: translateY(-1px);
+  }
 }
 
-.max-h-\[60vh\]::-webkit-scrollbar-thumb:hover {
-  background: #a0aec0;
+// === ANIMATION D'APPARITION ===
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Application de l'animation
+.bg-blue-50, .bg-green-50, .bg-yellow-50 {
+  animation: slideIn 0.3s ease-out;
 }

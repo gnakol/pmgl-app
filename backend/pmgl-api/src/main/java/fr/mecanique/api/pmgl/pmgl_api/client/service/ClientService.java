@@ -49,7 +49,7 @@ public class ClientService {
         var accountOpt = this.accountRepository.findByEmail(applicant.getEmail());
 
         Account account = accountOpt.orElseGet(() -> {
-            // ⚠ Assure-toi que AccountType a une valeur "CLIENT" (ou "customer")
+            // AccountType a une valeur "CLIENT" (ou "customer")
             Account acc = Account.builder()
                     .accountType(AccountType.CUSTOMER)
                     .firstName(applicant.getFirstName())

@@ -3,6 +3,7 @@ export interface CreateQuoteRequestDTO {
   applicant?: ApplicantDTO;
   notesGlobales?: string;
   items: ItemDTO[];
+  files?: BackendFileDTO[];
 }
 
 export interface ApplicantDTO {
@@ -12,7 +13,8 @@ export interface ApplicantDTO {
   email: string;
   telephone: string;
   adresse?: string;
-  typeClient: 'PARTICULIER' | 'ENTREPRISE';
+  // enum backend: particulier | entreprise (minuscule)
+  typeClient: 'particulier' | 'entreprise';
   raisonSociale?: string;
   siret?: string;
 }
@@ -26,21 +28,42 @@ export interface ItemDTO {
   finition?: string;
   traitement?: string;
   quantite: number;
+  // backend: LocalDate -> 'YYYY-MM-DD'
   delaiSouhaite?: string;
   descriptionLigne?: string;
   urgence?: boolean;
 }
 
-export const MATIERES = [
-  'Acier', 'Inox', 'Aluminium', 'Laiton', 'Bronze', 'Plastique'
-];
+/** Fichiers attendus par le backend */
+export interface BackendFileDTO {
+  fileName: string;
+  fileType: 'PLAN_2D' | 'MODELE_3D' | 'PHOTO' | 'AUTRE';
+  description?: string;
+  contentBase64: string;
+  itemIndex?: number | null;
+}
+
+/** Fichiers côté UI (avant conversion) */
+export interface UiFileDTO {
+  file: File;
+  fileType: 'PLAN_2D' | 'MODELE_3D' | 'PHOTO' | 'AUTRE';
+  description?: string;
+  itemIndex?: number | null;
+}
 
 export const TYPE_CLIENTS = [
-  { value: 'PARTICULIER', label: 'Particulier' },
-  { value: 'ENTREPRISE', label: 'Entreprise' }
+  { value: 'particulier', label: 'Particulier' },
+  { value: 'entreprise',  label: 'Entreprise' }
 ];
 
 export const CIVILITES = [
-  { value: 'MR', label: 'Monsieur' },
+  { value: 'MR',  label: 'Monsieur' },
   { value: 'MME', label: 'Madame' }
+];
+
+export const FILE_TYPES = [
+  { value: 'PLAN_2D',   label: 'Plan 2D (DWG, DXF, PDF)' },
+  { value: 'MODELE_3D', label: 'Modèle 3D (STEP, IGES, STL)' },
+  { value: 'PHOTO',     label: 'Photo/Référence' },
+  { value: 'AUTRE',     label: 'Autre document' }
 ];

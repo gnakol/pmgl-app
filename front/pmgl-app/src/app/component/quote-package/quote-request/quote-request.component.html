@@ -1,13 +1,13 @@
 <!-- Overlay -->
-<div class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4" 
+<div class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4"
      (click)="closeModal()">
-  
+
   <!-- Modale -->
   <div class="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden transform transition-all duration-300 scale-100"
        (click)="$event.stopPropagation()"
        [class.scale-95]="!isVisible"
        #modalContent>
-    
+
     <!-- Header -->
     <div class="bg-gradient-to-r from-blue-600 to-blue-800 text-white p-6">
       <div class="flex justify-between items-center">
@@ -15,7 +15,7 @@
           <h2 class="text-2xl font-bold">Demande de Devis</h2>
           <p class="text-blue-100 mt-1">Obtenez un devis personnalisé sous 48h</p>
         </div>
-        <button (click)="closeModal()" 
+        <button (click)="closeModal()"
                 class="text-white hover:text-blue-200 transition duration-200 p-2 rounded-full hover:bg-white hover:bg-opacity-10">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -24,44 +24,75 @@
       </div>
     </div>
 
-    <!-- Progress Steps -->
+    <!-- Progress Steps - 5 ÉTAPES -->
     <div class="bg-blue-50 px-6 py-4 border-b">
-      <div class="flex items-center justify-between max-w-2xl mx-auto">
+      <div class="flex items-center justify-between max-w-3xl mx-auto">
+        <!-- Étape 1 -->
         <div class="flex items-center" [class.text-blue-600]="currentStep >= 1" [class.text-gray-400]="currentStep < 1">
           <div class="w-8 h-8 rounded-full border-2 flex items-center justify-center text-sm font-semibold"
-               [class.bg-blue-600]="currentStep >= 1" 
+               [class.bg-blue-600]="currentStep >= 1"
                [class.border-blue-600]="currentStep >= 1"
                [class.border-gray-300]="currentStep < 1"
                [class.text-white]="currentStep >= 1">
             1
           </div>
-          <span class="ml-2 text-sm font-medium">Vos informations</span>
+          <span class="ml-2 text-sm font-medium hidden sm:block">Informations</span>
         </div>
-        
-        <div class="flex-1 h-0.5 mx-4 bg-gray-300"></div>
-        
+
+        <div class="flex-1 h-0.5 mx-2 bg-gray-300"></div>
+
+        <!-- Étape 2 -->
         <div class="flex items-center" [class.text-blue-600]="currentStep >= 2" [class.text-gray-400]="currentStep < 2">
           <div class="w-8 h-8 rounded-full border-2 flex items-center justify-center text-sm font-semibold"
-               [class.bg-blue-600]="currentStep >= 2" 
+               [class.bg-blue-600]="currentStep >= 2"
                [class.border-blue-600]="currentStep >= 2"
                [class.border-gray-300]="currentStep < 2"
                [class.text-white]="currentStep >= 2">
             2
           </div>
-          <span class="ml-2 text-sm font-medium">Détails pièce</span>
+          <span class="ml-2 text-sm font-medium hidden sm:block">Technique</span>
         </div>
-        
-        <div class="flex-1 h-0.5 mx-4 bg-gray-300"></div>
-        
+
+        <div class="flex-1 h-0.5 mx-2 bg-gray-300"></div>
+
+        <!-- Étape 3 -->
         <div class="flex items-center" [class.text-blue-600]="currentStep >= 3" [class.text-gray-400]="currentStep < 3">
           <div class="w-8 h-8 rounded-full border-2 flex items-center justify-center text-sm font-semibold"
-               [class.bg-blue-600]="currentStep >= 3" 
+               [class.bg-blue-600]="currentStep >= 3"
                [class.border-blue-600]="currentStep >= 3"
                [class.border-gray-300]="currentStep < 3"
                [class.text-white]="currentStep >= 3">
             3
           </div>
-          <span class="ml-2 text-sm font-medium">Validation</span>
+          <span class="ml-2 text-sm font-medium hidden sm:block">Fichiers</span>
+        </div>
+
+        <div class="flex-1 h-0.5 mx-2 bg-gray-300"></div>
+
+        <!-- Étape 4 -->
+        <div class="flex items-center" [class.text-blue-600]="currentStep >= 4" [class.text-gray-400]="currentStep < 4">
+          <div class="w-8 h-8 rounded-full border-2 flex items-center justify-center text-sm font-semibold"
+               [class.bg-blue-600]="currentStep >= 4"
+               [class.border-blue-600]="currentStep >= 4"
+               [class.border-gray-300]="currentStep < 4"
+               [class.text-white]="currentStep >= 4">
+            4
+          </div>
+          <span class="ml-2 text-sm font-medium hidden sm:block">Délais</span>
+        </div>
+
+        <div class="flex-1 h-0.5 mx-2 bg-gray-300"></div>
+
+        <!-- Étape 5 -->
+        <div class="flex items-center" [class.text-blue-600]="currentStep >= 5" [class.text-gray-400]="currentStep < 5">
+          <div class="w-8 h-8 rounded-full border-2 flex items-center justify-center text-sm font-semibold"
+               [class.bg-blue-600]="currentStep >= 5"
+               [class.border-blue-600]="currentStep >= 5"
+               [class.border-gray-300]="currentStep < 5"
+               [class.text-white]="currentStep >= 5">
+            5
+          </div>
+          <span class="ml-2 text-sm font-medium hidden sm:block">Validation</span>
         </div>
       </div>
     </div>
@@ -69,8 +100,8 @@
     <!-- Content -->
     <div class="p-6 max-h-[60vh] overflow-y-auto">
       <form [formGroup]="quoteForm" (ngSubmit)="onSubmit()">
-        
-        <!-- Step 1: Informations client -->
+
+        <!-- ========== ÉTAPE 1: INFORMATIONS CLIENT ========== -->
         <div *ngIf="currentStep === 1" class="space-y-6">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
@@ -80,18 +111,18 @@
                 <option *ngFor="let civ of civilities" [value]="civ.value">{{ civ.label }}</option>
               </select>
             </div>
-            
+
             <div class="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">Prénom *</label>
-                <input type="text" formControlName="firstName" 
+                <input type="text" formControlName="firstName"
                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
                        placeholder="Votre prénom">
               </div>
-              
+
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">Nom *</label>
-                <input type="text" formControlName="lastName" 
+                <input type="text" formControlName="lastName"
                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
                        placeholder="Votre nom">
               </div>
@@ -101,14 +132,14 @@
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label class="block text-sm font-medium text-gray-700 mb-2">Email *</label>
-              <input type="email" formControlName="email" 
+              <input type="email" formControlName="email"
                      class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
                      placeholder="votre@email.com">
             </div>
-            
+
             <div>
               <label class="block text-sm font-medium text-gray-700 mb-2">Téléphone *</label>
-              <input type="tel" formControlName="telephone" 
+              <input type="tel" formControlName="telephone"
                      class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
                      placeholder="06 12 34 56 78">
             </div>
@@ -126,7 +157,7 @@
                     <div class="w-4 h-4 border-2 rounded-full mr-3 flex items-center justify-center"
                          [class.border-blue-500]="quoteForm.get('typeClient')?.value === type.value"
                          [class.border-gray-400]="quoteForm.get('typeClient')?.value !== type.value">
-                      <div *ngIf="quoteForm.get('typeClient')?.value === type.value" 
+                      <div *ngIf="quoteForm.get('typeClient')?.value === type.value"
                            class="w-2 h-2 bg-blue-500 rounded-full"></div>
                     </div>
                     <span class="font-medium">{{ type.label }}</span>
@@ -136,43 +167,45 @@
             </div>
           </div>
 
-          <div *ngIf="quoteForm.get('typeClient')?.value === 'ENTREPRISE'" class="space-y-4">
+          <!-- Affiché uniquement si entreprise -->
+          <div *ngIf="quoteForm.get('typeClient')?.value === 'entreprise'" class="space-y-4">
             <div>
               <label class="block text-sm font-medium text-gray-700 mb-2">Raison sociale</label>
-              <input type="text" formControlName="raisonSociale" 
+              <input type="text" formControlName="raisonSociale"
                      class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
                      placeholder="Nom de votre entreprise">
             </div>
-            
+
             <div>
               <label class="block text-sm font-medium text-gray-700 mb-2">SIRET</label>
-              <input type="text" formControlName="siret" 
+              <input type="text" formControlName="siret"
                      class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
                      placeholder="14 chiffres">
             </div>
           </div>
         </div>
 
-        <!-- Step 2: Détails pièce -->
+        <!-- ========== ÉTAPE 2: DÉTAILS TECHNIQUES ========== -->
         <div *ngIf="currentStep === 2" class="space-y-6">
           <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
-            <h3 class="font-semibold text-blue-900 mb-2">Détails de la pièce à usiner</h3>
-            <p class="text-blue-700 text-sm">Renseignez les caractéristiques techniques de votre pièce</p>
+            <h3 class="font-semibold text-blue-900 mb-2">Caractéristiques techniques de la pièce</h3>
+            <p class="text-blue-700 text-sm">Des informations précises permettent un devis plus exact</p>
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label class="block text-sm font-medium text-gray-700 mb-2">Nom de la pièce *</label>
-              <input type="text" formControlName="nomPiece" 
+              <input type="text" formControlName="nomPiece"
                      class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
-                     placeholder="Ex: Support moteur">
+                     placeholder="Ex: Support moteur AX-2024">
             </div>
-            
+
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">Quantité *</label>
-              <input type="number" formControlName="quantite" min="1"
-                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
-                     placeholder="Ex: 10">
+              <label class="block text-sm font-medium text-gray-700 mb-2">Type de pièce</label>
+              <select formControlName="typePiece" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200">
+                <option value="">Sélectionnez</option>
+                <option *ngFor="let type of typePieces" [value]="type">{{ type }}</option>
+              </select>
             </div>
           </div>
 
@@ -184,31 +217,183 @@
                 <option *ngFor="let mat of materials" [value]="mat">{{ mat }}</option>
               </select>
             </div>
-            
+
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2">Dimensions</label>
-              <input type="text" formControlName="dimensions" 
+              <label class="block text-sm font-medium text-gray-700 mb-2">Dimensions approximatives</label>
+              <select formControlName="dimensions" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200">
+                <option value="">Sélectionnez</option>
+                <option *ngFor="let dim of dimensions" [value]="dim">{{ dim }}</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Tolérance dimensionnelle</label>
+              <select formControlName="tolerance" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200">
+                <option value="">Sélectionnez</option>
+                <option *ngFor="let tol of tolerances" [value]="tol">{{ tol }}</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Finition de surface</label>
+              <select formControlName="finition" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200">
+                <option value="">Sélectionnez</option>
+                <option *ngFor="let fin of finitions" [value]="fin">{{ fin }}</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Traitement thermique/surface</label>
+              <select formControlName="traitement" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition durée-200">
+                <option value="">Sélectionnez</option>
+                <option *ngFor="let trat of traitements" [value]="trat">{{ trat }}</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Quantité *</label>
+              <input type="number" formControlName="quantite" min="1"
                      class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
-                     placeholder="Ex: 100x50x20mm">
+                     placeholder="Ex: 10">
             </div>
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Description détaillée</label>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Description détaillée et fonction</label>
             <textarea formControlName="descriptionLigne" rows="3"
                       class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
-                      placeholder="Décrivez votre pièce, ses fonctionnalités, contraintes techniques..."></textarea>
-          </div>
-
-          <div class="flex items-center">
-            <input type="checkbox" formControlName="urgence" id="urgence"
-                   class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
-            <label for="urgence" class="ml-2 text-sm text-gray-700">Demande urgente</label>
+                      placeholder="Décrivez la fonction de la pièce, ses conditions d'utilisation, contraintes mécaniques..."></textarea>
           </div>
         </div>
 
-        <!-- Step 3: Récapitulatif -->
+        <!-- ========== ÉTAPE 3: UPLOAD FICHIERS ========== -->
         <div *ngIf="currentStep === 3" class="space-y-6">
+          <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+            <h3 class="font-semibold text-blue-900 mb-2">Documents techniques (optionnel mais recommandé)</h3>
+            <p class="text-blue-700 text-sm">Des fichiers techniques permettent un devis plus précis et rapide</p>
+          </div>
+
+          <!-- Zone de drop files -->
+          <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-blue-400 transition duration-200"
+               [class.border-blue-400]="isDragOver"
+               [class.bg-blue-50]="isDragOver"
+               (drop)="onFileDrop($event)"
+               (dragover)="onDragOver($event)"
+               (dragleave)="onDragLeave($event)">
+            <input
+              type="file"
+              #fileInput
+              multiple
+              (change)="onFileSelected($event)"
+              class="hidden"
+              accept=".pdf,.dwg,.dxf,.step,.stp,.iges,.igs,.stl,.jpg,.jpeg,.png"
+            >
+
+            <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+            </svg>
+
+            <div class="mt-4">
+              <button type="button" (click)="fileInput.click()"
+                      class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                Sélectionner des fichiers
+              </button>
+              <p class="mt-2 text-sm text-gray-600">ou glissez-déposez vos fichiers ici</p>
+            </div>
+
+            <p class="mt-2 text-xs text-gray-500">
+              Formats acceptés: PDF, DWG, DXF, STEP, IGES, STL, JPG, PNG (max 20MB par fichier)
+            </p>
+          </div>
+
+          <!-- Liste des fichiers sélectionnés -->
+          <div *ngIf="selectedFiles.length > 0" class="space-y-3">
+            <h4 class="font-medium text-gray-900">Fichiers sélectionnés ({{selectedFiles.length}})</h4>
+
+            <div *ngFor="let file of selectedFiles; let i = index"
+                 class="flex items-center justify-between p-3 bg-gray-50 rounded-lg border file-item">
+              <div class="flex items-center space-x-3">
+                <div class="w-8 h-8 bg-blue-100 rounded flex items-center justify-center">
+                  <span class="text-blue-600 text-xs font-medium">{{ getFileExtension(file.file.name) }}</span>
+                </div>
+                <div>
+                  <p class="text-sm font-medium text-gray-900 truncate max-w-xs">{{ file.file.name }}</p>
+                  <p class="text-xs text-gray-500">{{ formatFileSize(file.file.size) }}</p>
+                </div>
+              </div>
+
+              <div class="flex items-center space-x-2">
+                <select [(ngModel)]="file.fileType" [ngModelOptions]="{standalone: true}"
+                        class="text-sm border border-gray-300 rounded px-2 py-1">
+                  <option *ngFor="let type of fileTypes" [value]="type.value">{{ type.label }}</option>
+                </select>
+
+                <button type="button" (click)="removeFile(i)"
+                        class="text-red-600 hover:text-red-800 p-1">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ========== ÉTAPE 4: DÉLAIS ET BESOINS ========== -->
+        <div *ngIf="currentStep === 4" class="space-y-6">
+          <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+            <h3 class="font-semibold text-blue-900 mb-2">Besoins spécifiques et planning</h3>
+            <p class="text-blue-700 text-sm">Aidez-nous à mieux répondre à vos attentes</p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Délai souhaité</label>
+              <!-- Input date pour produire 'YYYY-MM-DD' -->
+              <input type="date" formControlName="delaiSouhaite"
+                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200">
+            </div>
+
+            <div class="flex items-center justify-center">
+              <div class="flex items-center">
+                <input type="checkbox" formControlName="urgence" id="urgence"
+                       class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                <label for="urgence" class="ml-2 text-sm text-gray-700 font-medium">Demande urgente</label>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Notes supplémentaires</label>
+            <textarea formControlName="notesGlobales" rows="4"
+                      class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+                      placeholder="Informations complémentaires, contraintes particulières, environnement d'utilisation..."></textarea>
+          </div>
+
+          <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+            <div class="flex">
+              <svg class="h-5 w-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd"
+                      d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+                      clip-rule="evenodd"/>
+              </svg>
+              <div class="ml-3">
+                <h4 class="text-sm font-medium text-yellow-800">Information importante</h4>
+                <p class="text-sm text-yellow-700 mt-1">
+                  Votre demande sera traitée sous 24h ouvrables. Un devis détaillé vous sera transmis par email.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ========== ÉTAPE 5: RÉCAPITULATIF ========== -->
+        <div *ngIf="currentStep === 5" class="space-y-6">
           <div class="bg-green-50 border border-green-200 rounded-lg p-4">
             <h3 class="font-semibold text-green-900 mb-2">Récapitulatif de votre demande</h3>
             <p class="text-green-700 text-sm">Vérifiez les informations avant envoi</p>
@@ -221,28 +406,45 @@
                 <p><span class="font-medium">Nom :</span> {{ quoteForm.value.civility }} {{ quoteForm.value.firstName }} {{ quoteForm.value.lastName }}</p>
                 <p><span class="font-medium">Email :</span> {{ quoteForm.value.email }}</p>
                 <p><span class="font-medium">Téléphone :</span> {{ quoteForm.value.telephone }}</p>
-                <p><span class="font-medium">Type :</span> {{ quoteForm.value.typeClient === 'ENTREPRISE' ? 'Entreprise' : 'Particulier' }}</p>
+                <p><span class="font-medium">Type :</span> {{ quoteForm.value.typeClient === 'entreprise' ? 'Entreprise' : 'Particulier' }}</p>
                 <p *ngIf="quoteForm.value.raisonSociale"><span class="font-medium">Entreprise :</span> {{ quoteForm.value.raisonSociale }}</p>
               </div>
             </div>
-            
+
             <div>
-              <h4 class="font-semibold text-gray-900 mb-3">Détails de la pièce</h4>
+              <h4 class="font-semibold text-gray-900 mb-3">Détails techniques</h4>
               <div class="space-y-2 text-sm text-gray-600">
                 <p><span class="font-medium">Pièce :</span> {{ quoteForm.value.nomPiece }}</p>
-                <p><span class="font-medium">Quantité :</span> {{ quoteForm.value.quantite }}</p>
+                <p *ngIf="quoteForm.value.typePiece"><span class="font-medium">Type :</span> {{ quoteForm.value.typePiece }}</p>
                 <p *ngIf="quoteForm.value.matiere"><span class="font-medium">Matière :</span> {{ quoteForm.value.matiere }}</p>
                 <p *ngIf="quoteForm.value.dimensions"><span class="font-medium">Dimensions :</span> {{ quoteForm.value.dimensions }}</p>
+                <p *ngIf="quoteForm.value.tolerance"><span class="font-medium">Tolérance :</span> {{ quoteForm.value.tolerance }}</p>
+                <p *ngIf="quoteForm.value.finition"><span class="font-medium">Finition :</span> {{ quoteForm.value.finition }}</p>
+                <p *ngIf="quoteForm.value.traitement"><span class="font-medium">Traitement :</span> {{ quoteForm.value.traitement }}</p>
+                <p><span class="font-medium">Quantité :</span> {{ quoteForm.value.quantite }}</p>
+                <p *ngIf="quoteForm.value.delaiSouhaite"><span class="font-medium">Délai :</span> {{ quoteForm.value.delaiSouhaite }}</p>
                 <p *ngIf="quoteForm.value.urgence" class="text-orange-600 font-medium">✓ Demande urgente</p>
               </div>
             </div>
           </div>
 
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Notes supplémentaires</label>
-            <textarea formControlName="notesGlobales" rows="3"
-                      class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
-                      placeholder="Informations complémentaires..."></textarea>
+          <!-- Fichiers dans le récapitulatif -->
+          <div *ngIf="selectedFiles.length > 0">
+            <h4 class="font-semibold text-gray-900 mb-3">Fichiers joints ({{selectedFiles.length}})</h4>
+            <div class="space-y-2">
+              <div *ngFor="let file of selectedFiles" class="flex items-center space-x-3 text-sm text-gray-600">
+                <div class="w-6 h-6 bg-blue-100 rounded flex items-center justify-center">
+                  <span class="text-blue-600 text-xs">{{ getFileExtension(file.file.name) }}</span>
+                </div>
+                <span>{{ file.file.name }}</span>
+                <span class="text-gray-400">({{ file.fileType }})</span>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="quoteForm.value.notesGlobales">
+            <h4 class="font-semibold text-gray-900 mb-2">Notes supplémentaires</h4>
+            <p class="text-sm text-gray-600 bg-gray-50 p-3 rounded">{{ quoteForm.value.notesGlobales }}</p>
           </div>
         </div>
       </form>
@@ -250,21 +452,22 @@
 
     <!-- Footer avec boutons navigation -->
     <div class="bg-gray-50 px-6 py-4 border-t flex justify-between">
-      <button *ngIf="currentStep > 1" 
+      <button *ngIf="currentStep > 1"
               (click)="previousStep()"
               class="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-100 transition duration-200 font-medium">
         Précédent
       </button>
-      <div *ngIf="currentStep === 1"></div> <!-- Spacer pour l'alignement -->
+      <div *ngIf="currentStep === 1"></div> <!-- Spacer -->
 
-      <button *ngIf="currentStep < 3" 
+      <button *ngIf="currentStep < 5"
               (click)="nextStep()"
               [disabled]="!isStepValid()"
               class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-200 font-medium disabled:bg-gray-400 disabled:cursor-not-allowed ml-auto">
         Suivant
       </button>
 
-      <button *ngIf="currentStep === 3" 
+      <button *ngIf="currentStep === 5"
+              type="submit"
               (click)="onSubmit()"
               [disabled]="isSubmitting"
               class="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition duration-200 font-medium disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center">
@@ -272,7 +475,8 @@
         <span *ngIf="isSubmitting" class="flex items-center">
           <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            <path class="opacity-75" fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
           </svg>
           Envoi en cours...
         </span>

@@ -1,8 +1,11 @@
 package fr.mecanique.api.pmgl.pmgl_api.quote_request.bean;
 
 import fr.mecanique.api.pmgl.pmgl_api.client.bean.Client;
+import fr.mecanique.api.pmgl.pmgl_api.quote_request.enums.FileKind;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDateTime;
 
@@ -38,9 +41,10 @@ public class QuoteRequestFile {
     @Column(name = "original_name", length = 255)
     private String originalName;
 
-    // Enum Postgres file_kind_enum
-    @Column(name = "file_kind", columnDefinition = "file_kind_enum")
-    private String fileKind;
+    @Enumerated(EnumType.STRING)
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
+    @Column(name = "file_kind", columnDefinition = "file_kind_enum", nullable = false)
+    private FileKind fileKind;
 
     @Column(name = "mime_type", length = 150)
     private String mimeType;
