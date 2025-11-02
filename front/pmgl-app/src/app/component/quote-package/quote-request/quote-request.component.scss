@@ -1,0 +1,42 @@
+:host {
+  display: block;
+}
+
+.scale-95 {
+  transform: scale(0.95);
+  opacity: 0;
+}
+
+.scale-100 {
+  transform: scale(1);
+  opacity: 1;
+}
+
+// Animation smooth pour la modale
+.fixed {
+  transition: opacity 0.3s ease-in-out;
+}
+
+// Scrollbar custom pour la modale
+.max-h-\[60vh\] {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e0 #f7fafc;
+}
+
+.max-h-\[60vh\]::-webkit-scrollbar {
+  width: 6px;
+}
+
+.max-h-\[60vh\]::-webkit-scrollbar-track {
+  background: #f7fafc;
+  border-radius: 3px;
+}
+
+.max-h-\[60vh\]::-webkit-scrollbar-thumb {
+  background: #cbd5e0;
+  border-radius: 3px;
+}
+
+.max-h-\[60vh\]::-webkit-scrollbar-thumb:hover {
+  background: #a0aec0;
+}

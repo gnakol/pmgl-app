@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="720" height="180" viewBox="0 0 720 180" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">PMGL Précision — Logo horizontal</title>
+  <desc id="desc">Logomark gear and spindle with wordmark PMGL Précision</desc>
+  <defs>
+    <linearGradient id="pmglGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0B3B8C"/>
+      <stop offset="100%" stop-color="#1D4ED8"/>
+    </linearGradient>
+    <style>
+      .word { font-family: Inter, Segoe UI, Roboto, Arial, sans-serif; font-weight: 800; letter-spacing: 0.5px;}
+      .sub  { font-family: Inter, Segoe UI, Roboto, Arial, sans-serif; font-weight: 600; letter-spacing: 2px;}
+    </style>
+    <!-- Simple gear path generator replaced by prebuilt path for reliability -->
+  </defs>
+
+  <!-- Logomark: stylized gear + spindle -->
+  <g transform="translate(24,24)">
+    <!-- Gear base -->
+    <g transform="translate(0,0)">
+      <circle cx="66" cy="66" r="46" fill="url(#pmglGrad)" stroke="#0B3B8C" stroke-width="4"/>
+      <!-- Teeth -->
+      <g fill="#1D4ED8">
+        <rect x="62" y="6" width="8" height="16" rx="2"/>
+        <rect x="62" y="110" width="8" height="16" rx="2"/>
+        <rect x="6" y="62" width="16" height="8" rx="2"/>
+        <rect x="110" y="62" width="16" height="8" rx="2"/>
+        <rect x="22" y="22" width="16" height="8" rx="2" transform="rotate(-45 22 22)"/>
+        <rect x="98" y="98" width="16" height="8" rx="2" transform="rotate(-45 98 98)"/>
+        <rect x="22" y="102" width="16" height="8" rx="2" transform="rotate(45 22 102)"/>
+        <rect x="98" y="26" width="16" height="8" rx="2" transform="rotate(45 98 26)"/>
+      </g>
+      <!-- Spindle / endmill -->
+      <g transform="translate(66,66)">
+        <circle r="20" fill="white" opacity="0.95"/>
+        <path d="M0,-28 L8,-8 L-8,-8 Z" fill="#0B3B8C"/>
+        <rect x="-2.5" y="-8" width="5" height="26" rx="2.5" fill="#111827"/>
+        <path d="M0,18 C8,18 8,26 0,26 C-8,26 -8,18 0,18Z" fill="#1D4ED8"/>
+      </g>
+    </g>
+  </g>
+
+  <!-- Wordmark -->
+  <g transform="translate(170,70)">
+    <text class="word" x="0" y="0" font-size="64" fill="#111827">PMGL</text>
+    <rect x="0" y="12" width="230" height="8" rx="4" fill="url(#pmglGrad)" opacity="0.25"/>
+    <text class="sub" x="0" y="48" font-size="18" fill="#1F2937">PRÉCISION MÉCANIQUE</text>
+  </g>
+</svg>
