@@ -7,16 +7,24 @@ import { HomePageComponent } from './component/pages/home-page/home-page.compone
 import { FooterComponent } from './component/pages/footer/footer.component';
 import { PageModule } from './component/pages/page/page.module';
 import { HttpClientModule } from '@angular/common/http';
-import { LoginComponent } from './component/customer-package/authenticate/login/login.component';
-import { AllCustomerComponent } from './component/customer-package/web-service/all-customer/all-customer.component';
+import { AdminDashboardComponent } from './component/admin-package/admin-dashboard/admin-dashboard.component';
+import { TemplateComponent } from './component/admin-package/cockpit/client/template/template.component';
+import { CreateQuoteComponent } from './component/quote-package/web-service/create-quote/create-quote.component';
+import { CustomTemplateComponent } from './component/customer-package/custom-template/custom-template.component';
+import { DeleteClientComponent } from './component/customer-package/web-service/delete-client/delete-client.component';
+import { UpdateDevisComponent } from './component/devis-package/web-service/update-devis/update-devis.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomePageComponent,
     FooterComponent,
-    LoginComponent,
-    AllCustomerComponent,
+    AdminDashboardComponent,
+    TemplateComponent,
+    CreateQuoteComponent,
+    CustomTemplateComponent,
+    DeleteClientComponent,
+    UpdateDevisComponent,
   ],
   imports: [
     BrowserModule,

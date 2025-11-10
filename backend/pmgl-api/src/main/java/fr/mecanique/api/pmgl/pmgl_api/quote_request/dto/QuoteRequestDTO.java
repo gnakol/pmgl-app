@@ -17,6 +17,7 @@ public class QuoteRequestDTO {
 
     private ClientInfoDTO client;
     private List<ItemDTO> items;
+    private List<FileDTO> files; // NOUVEAU : ajout des fichiers
 
     @Data
     public static class ClientInfoDTO {
@@ -45,5 +46,20 @@ public class QuoteRequestDTO {
         private LocalDate delaiSouhaite;
         private String descriptionLigne;
         private Boolean urgence;
+    }
+
+    // NOUVEAU : DTO pour les fichiers
+    @Data
+    public static class FileDTO {
+        private Long id;
+        private String fileName;
+        private String fileType;
+        private String description;
+        private String filePath;
+        private String mimeType;
+        private Long sizeBytes;
+        private LocalDateTime uploadedAt;
+        private Integer itemIndex;
+        private Long itemId; // ID de l'item lié si applicable
     }
 }

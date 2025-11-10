@@ -1,17 +1,23 @@
+<!-- src/app/component/pages/navbar/navbar.component.html -->
 <nav class="bg-white shadow-lg sticky top-0 z-40">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between items-center h-16">
+
       <!-- Logo -->
-    <a class="flex items-center gap-2" routerLink="/">
+      <a (click)="navigateToHome()" class="flex items-center space-x-2 cursor-pointer logo-magic-container">
         <img src="assets/brand/pmgl-logo-horizontal.svg"
              alt="PMGL Précision — Usinage mécanique"
              class="h-8 md:h-10 w-auto" />
-    </a>
-      <div class="flex items-center">
+      </a>
+
+      <!-- Branding -->
+      <div class="hidden md:flex items-center">
         <div class="flex-shrink-0 flex items-center">
           <svg class="h-8 w-8 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
           </svg>
           <span class="ml-2 text-xl font-bold text-gray-900">PMGL</span>
           <span class="ml-1 text-sm text-blue-600">Précision</span>
@@ -19,33 +25,84 @@
       </div>
 
       <!-- Menu Desktop -->
-      <div class="hidden md:block">
-        <div class="ml-10 flex items-baseline space-x-4">
-          <a href="#" class="text-blue-600 hover:text-blue-800 px-3 py-2 rounded-md text-sm font-medium transition duration-300">Accueil</a>
-          <a href="#" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition duration-300">Réalisations</a>
-          <a href="#" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition duration-300">Nos Moyens</a>
-          <a href="#" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition duration-300">Demande de Devis</a>
-          <a href="#" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition duration-300">Contact</a>
+      <div class="hidden md:block flex-1 mx-8">
+        <div class="flex items-baseline space-x-6 justify-center">
+          <a routerLink="/" class="text-blue-600 hover:text-blue-800 px-3 py-2 rounded-md text-sm font-medium transition duration-300 whitespace-nowrap">Accueil</a>
+          <a href="#" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition duration-300 whitespace-nowrap">Réalisations</a>
+          <a href="#" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition duration-300 whitespace-nowrap">Nos Moyens</a>
+          <a href="#" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition duration-300 whitespace-nowrap">Demande de Devis</a>
+          <a href="#" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition duration-300 whitespace-nowrap">Contact</a>
         </div>
       </div>
 
-      <!-- CTA Desktop -->
-<div class="hidden md:block">
-  <button (click)="openQuoteModal()"
-          class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition duration-300 shadow-lg">
-    Demander un Devis
-  </button>
-</div>
+      <!-- CTA / Auth Desktop -->
+      <div class="hidden md:flex items-center gap-4">
 
-      <!-- Menu Mobile -->
+        <button (click)="openQuoteModal()"
+                class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition duration-300 shadow-lg whitespace-nowrap">
+          Demander un Devis
+        </button>
+
+        <!-- Non connecté -->
+        <ng-container *ngIf="!isAnyAuth; else profileBlock">
+          <div class="flex items-center gap-3">
+            <button (click)="goLogin()"
+                    class="px-4 py-2 rounded-md text-sm font-medium border border-gray-300 hover:bg-gray-100 transition whitespace-nowrap">
+              Connexion
+            </button>
+            <button (click)="goJoin()"
+                    class="px-4 py-2 rounded-md text-sm font-medium bg-gray-900 text-white hover:bg-black transition whitespace-nowrap">
+              Rejoindre
+            </button>
+            <!-- Admin seulement visible si pas connecté -->
+            <a *ngIf="!isAnyAuth" routerLink="/admin-login"
+               class="px-3 py-2 rounded-md text-xs font-medium border border-gray-200 hover:bg-gray-50 transition whitespace-nowrap">
+              Admin
+            </a>
+          </div>
+        </ng-container>
+
+        <!-- Connecté : profil + menu -->
+        <ng-template #profileBlock>
+          <div class="relative">
+            <button class="flex items-center gap-2 px-3 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition whitespace-nowrap"
+                    (click)="showProfileMenu = !showProfileMenu" [attr.aria-haspopup]="'menu'" [attr.aria-expanded]="showProfileMenu ? 'true' : 'false'"
+  type="button">
+              <div class="w-7 h-7 rounded-full bg-gray-900 text-white flex items-center justify-center">
+                <span class="text-xs font-semibold">{{ (profileName | slice:0:1) || 'P' }}</span>
+              </div>
+              <span class="text-sm font-medium">{{ profileName }}</span>
+              <svg class="w-4 h-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+              </svg>
+            </button>
+
+            <!-- Dropdown -->
+            <div *ngIf="showProfileMenu"
+                 class="absolute right-0 mt-2 w-56 bg-white border border-gray-200 rounded-lg shadow-lg py-1 z-50">
+              <button (click)="goDashboard()" class="w-full text-left px-4 py-2 text-sm hover:bg-gray-50">Tableau de bord</button>
+              <button (click)="goNotifications()" class="w-full text-left px-4 py-2 text-sm hover:bg-gray-50">Notifications</button>
+              <button (click)="goSettings()" class="w-full text-left px-4 py-2 text-sm hover:bg-gray-50">Paramètres</button>
+              <div class="my-1 border-t border-gray-100"></div>
+              <button (click)="logout()" class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50">Déconnexion</button>
+            </div>
+          </div>
+        </ng-template>
+      </div>
+
+      <!-- Menu Mobile (icône placeholder) -->
       <div class="md:hidden">
         <button class="text-gray-700 hover:text-blue-600 focus:outline-none focus:text-blue-600">
           <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M4 6h16M4 12h16M4 18h16" />
           </svg>
         </button>
       </div>
     </div>
   </div>
 </nav>
+
+<!-- Modales -->
 <app-quote-request *ngIf="showQuoteModal" (closed)="showQuoteModal = false"></app-quote-request>
+<app-login *ngIf="showLoginModal" (closed)="showLoginModal = false"></app-login>

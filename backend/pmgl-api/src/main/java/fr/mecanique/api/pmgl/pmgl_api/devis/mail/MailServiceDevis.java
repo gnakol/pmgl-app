@@ -128,7 +128,7 @@ public class MailServiceDevis {
             <li>Échanger avec notre équipe</li>
           </ul>
           <p style="margin-top:18px">
-            <a href="https://pmgl.fr/login"
+            <a href="http://localhost:4200/login"
                style="display:inline-block;background:#111;color:#fff;padding:12px 18px;border-radius:8px;text-decoration:none;font-weight:600">
                Accéder à mon compte
             </a>

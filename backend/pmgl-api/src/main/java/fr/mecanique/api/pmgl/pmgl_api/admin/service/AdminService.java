@@ -4,26 +4,33 @@ import fr.mecanique.api.pmgl.pmgl_api.account.bean.Account;
 import fr.mecanique.api.pmgl.pmgl_api.account.enums.AccountType;
 import fr.mecanique.api.pmgl.pmgl_api.account.repositorie.AccountRepository;
 import fr.mecanique.api.pmgl.pmgl_api.admin.bean.Admin;
+import fr.mecanique.api.pmgl.pmgl_api.admin.dto.AdminDTO;
 import fr.mecanique.api.pmgl.pmgl_api.admin.dto.ConfirmInviteRequest;
 import fr.mecanique.api.pmgl.pmgl_api.admin.dto.InviteAdminRequest;
 import fr.mecanique.api.pmgl.pmgl_api.admin.enums.AdminRole;
 import fr.mecanique.api.pmgl.pmgl_api.admin.keycloak.KeycloakAdminService;
+import fr.mecanique.api.pmgl.pmgl_api.admin.mappers.AdminMapper;
 import fr.mecanique.api.pmgl.pmgl_api.admin.repositorie.AdminRepository;
 import fr.mecanique.api.pmgl.pmgl_api.security.JwtService;
 import fr.mecanique.api.pmgl.pmgl_api.uuid.service.UuidService;
+import fr.mecanique.api.pmgl.pmgl_api.webservice.Webservice;
 import io.jsonwebtoken.Claims;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class AdminService {
+public class AdminService implements Webservice<AdminDTO> {
 
     private final AccountRepository accountRepository;
     private final AdminRepository adminRepository;
@@ -33,6 +40,7 @@ public class AdminService {
     private final JavaMailSender mailSender;
 
     private final KeycloakAdminService keycloakAdminService;
+    private final AdminMapper adminMapper;
 
 
     public String inviteAdmin(InviteAdminRequest request) {
@@ -133,6 +141,43 @@ public class AdminService {
         // Supprimer l'admin + le compte en base
         adminRepository.delete(admin);
         accountRepository.delete(admin.getAccount());
+    }
+    @Transactional
+    public Long getAdminIdByEmail(String email) {
+        return adminRepository.findIdByEmail(email)
+                .orElseThrow(() -> new EntityNotFoundException("Aucun admin trouvé avec l'email : " + email));
+    }
+
+    @Transactional
+    public Account getAccountByEmail(String email) {
+        return accountRepository.findByEmail(email)
+                .orElseThrow(() -> new EntityNotFoundException("Aucun compte trouvé avec l'email : " + email));
+    }
+
+    @Override
+    public Page<AdminDTO> all(Pageable pageable) {
+        return null;
+    }
+
+    @Override
+    public AdminDTO add(AdminDTO e) {
+        return null;
+    }
+
+    @Override
+    public AdminDTO update(Long id, AdminDTO e) {
+        return null;
+    }
+
+    @Override
+    public void remove(Long id) {
+
+    }
+
+    @Override
+    public Optional<AdminDTO> getById(Long id) {
+        return this.adminRepository.findById(id)
+                .map(this.adminMapper::fromAdmin);
     }
 
 

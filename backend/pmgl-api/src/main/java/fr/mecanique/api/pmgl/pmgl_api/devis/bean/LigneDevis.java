@@ -1,6 +1,7 @@
 package fr.mecanique.api.pmgl.pmgl_api.devis.bean;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,6 +24,7 @@ public class LigneDevis {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_devis", nullable = false)
+    @JsonIgnore
     private Devis devis;
 
     @Column(name = "description_ligne", nullable = false)

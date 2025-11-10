@@ -1,0 +1,264 @@
+<div class="min-h-screen bg-gray-50 p-6">
+  <!-- Header -->
+  <div class="mb-8">
+    <div class="flex justify-between items-start mb-6">
+      <div>
+        <h1 class="text-3xl font-bold text-gray-900">Cockpit Devis</h1>
+        <p class="text-gray-600 mt-2">Gérez vos demandes de devis et créez de nouvelles offres</p>
+      </div>
+      <button class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium flex items-center space-x-2 transition-colors">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+        </svg>
+        <span>Nouveau Devis</span>
+      </button>
+    </div>
+
+    <!-- Stats Bar -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+      <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-200">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm font-medium text-gray-600">En attente</p>
+            <p class="text-2xl font-bold text-orange-600 mt-1">8</p>
+          </div>
+          <div class="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
+            <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-200">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm font-medium text-gray-600">En cours</p>
+            <p class="text-2xl font-bold text-blue-600 mt-1">12</p>
+          </div>
+          <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+            <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-200">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm font-medium text-gray-600">Acceptés</p>
+            <p class="text-2xl font-bold text-green-600 mt-1">15</p>
+          </div>
+          <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+            <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-200">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm font-medium text-gray-600">CA Total</p>
+            <p class="text-2xl font-bold text-purple-600 mt-1">42.8k€</p>
+          </div>
+          <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
+            <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
+    <!-- Left Column - Liste -->
+    <div class="xl:col-span-2 space-y-6">
+      <!-- Filtres + Onglets -->
+      <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+        <div class="flex flex-wrap gap-4 items-center">
+          <!-- Onglets de bascule -->
+          <div class="flex rounded-lg border border-gray-300 overflow-hidden">
+            <button
+              type="button"
+              (click)="setView('requests')"
+              class="px-4 py-2 text-sm font-medium transition-colors"
+              [ngClass]="selectedView === 'requests'
+                ? 'bg-blue-600 text-white'
+                : 'bg-white text-gray-700 hover:bg-gray-50'">
+              Demandes de devis
+            </button>
+            <button
+              type="button"
+              (click)="setView('quotes')"
+              class="px-4 py-2 text-sm font-medium transition-colors border-l border-gray-300"
+              [ngClass]="selectedView === 'quotes'
+                ? 'bg-blue-600 text-white'
+                : 'bg-white text-gray-700 hover:bg-gray-50'">
+              Devis
+            </button>
+          </div>
+
+          <!-- Filtres existants -->
+          <select class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+            <option>Tous les statuts</option>
+            <option>En attente</option>
+            <option>En cours</option>
+            <option>Accepté</option>
+            <option>Refusé</option>
+          </select>
+
+          <select class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+            <option>Tous les matériaux</option>
+            <option>Aluminium</option>
+            <option>Acier</option>
+            <option>Inox</option>
+            <option>Laiton</option>
+          </select>
+
+          <input
+            type="text"
+            placeholder="Rechercher..."
+            class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 flex-1">
+
+          <button class="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors">
+            <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.414A1 1 0 013 6.707V4z"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Zone liste : bascule entre les deux composants -->
+      <ng-container *ngIf="selectedView === 'requests'; else quotesList">
+        <app-all-quote-request></app-all-quote-request>
+      </ng-container>
+      <ng-template #quotesList>
+        <app-all-devis></app-all-devis>
+      </ng-template>
+    </div>
+
+    <!-- Right Column - Actions & Détails -->
+    <div class="space-y-6">
+      <!-- Actions Rapides -->
+      <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <h3 class="text-lg font-semibold text-gray-900 mb-4">Actions Rapides</h3>
+        <div class="space-y-3">
+          <button class="w-full flex items-center space-x-3 p-3 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors text-left group">
+            <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center group-hover:bg-blue-700 transition-colors">
+              <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+              </svg>
+            </div>
+            <div>
+              <p class="font-medium text-gray-900">Devis Manuel</p>
+              <p class="text-sm text-gray-500">Créer un devis from scratch</p>
+            </div>
+          </button>
+
+          <button class="w-full flex items-center space-x-3 p-3 bg-green-50 hover:bg-green-100 rounded-lg transition-colors text-left group">
+            <div class="w-10 h-10 bg-green-600 rounded-lg flex items-center justify-center group-hover:bg-green-700 transition-colors">
+              <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"/>
+              </svg>
+            </div>
+            <div>
+              <p class="font-medium text-gray-900">Import Client</p>
+              <p class="text-sm text-gray-500">Depuis demande web</p>
+            </div>
+          </button>
+
+          <button class="w-full flex items-center space-x-3 p-3 bg-purple-50 hover:bg-purple-100 rounded-lg transition-colors text-left group">
+            <div class="w-10 h-10 bg-purple-600 rounded-lg flex items-center justify-center group-hover:bg-purple-700 transition-colors">
+              <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+              </svg>
+            </div>
+            <div>
+              <p class="font-medium text-gray-900">Modèles</p>
+              <p class="text-sm text-gray-500">Devis réutilisables</p>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <!-- Détails Sélectionnés -->
+      <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <h3 class="text-lg font-semibold text-gray-900 mb-4">Détails du Devis</h3>
+        <div class="space-y-4">
+          <div>
+            <h4 class="font-medium text-gray-900 mb-2">Pièces</h4>
+            <div class="space-y-2">
+              <div class="p-3 bg-gray-50 rounded-lg">
+                <p class="font-medium text-sm">Support roulement</p>
+                <div class="grid grid-cols-2 gap-2 text-xs text-gray-600 mt-1">
+                  <div>ALU_5083 • 4 pièces</div>
+                  <div>Ø60 x 20 • H7</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h4 class="font-medium text-gray-900 mb-2">Fichiers</h4>
+            <div class="space-y-2">
+              <div class="flex items-center justify-between p-2 hover:bg-gray-50 rounded">
+                <div class="flex items-center space-x-2">
+                  <svg class="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                  </svg>
+                  <span class="text-sm">plan_global.pdf</span>
+                </div>
+                <button class="text-blue-600 hover:text-blue-700 text-sm">Télécharger</button>
+              </div>
+              <div class="flex items-center justify-between p-2 hover:bg-gray-50 rounded">
+                <div class="flex items-center space-x-2">
+                  <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                  </svg>
+                  <span class="text-sm">support_roulement.step</span>
+                </div>
+                <button class="text-blue-600 hover:text-blue-700 text-sm">Télécharger</button>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h4 class="font-medium text-gray-900 mb-2">Notes</h4>
+            <p class="text-sm text-gray-600 bg-yellow-50 p-3 rounded-lg">Tolérances strictes sur l'alésage, finition microbillée.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Statistiques Rapides -->
+      <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <h3 class="text-lg font-semibold text-gray-900 mb-4">Performance</h3>
+        <div class="space-y-4">
+          <div>
+            <div class="flex justify-between text-sm mb-1">
+              <span class="text-gray-600">Taux d'acceptation</span>
+              <span class="font-medium">68%</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-2">
+              <div class="bg-green-600 h-2 rounded-full" style="width: 68%"></div>
+            </div>
+          </div>
+          <div>
+            <div class="flex justify-between text-sm mb-1">
+              <span class="text-gray-600">Délai moyen réponse</span>
+              <span class="font-medium">2.3 jours</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-2">
+              <div class="bg-blue-600 h-2 rounded-full" style="width: 75%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

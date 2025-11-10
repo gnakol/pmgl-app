@@ -216,8 +216,6 @@ public class QuoteRequestService {
         }
     }
 
-    // Dans QuoteRequestService
-
     public Page<QuoteRequestDTO> getAllQuoteRequests(Pageable pageable) {
         Page<QuoteRequest> quoteRequests = quoteRequestRepository.findAll(pageable);
         return quoteRequests.map(this::mapToDTO);
@@ -261,6 +259,13 @@ public class QuoteRequestService {
                 .toList();
         dto.setItems(items);
 
+        // NOUVEAU : Récupérer les fichiers
+        List<QuoteRequestDTO.FileDTO> files = fileRepository.findByQuoteRequest_Id(quoteRequest.getId())
+                .stream()
+                .map(this::mapFileToDTO)
+                .toList();
+        dto.setFiles(files);
+
         return dto;
     }
 
@@ -281,4 +286,17 @@ public class QuoteRequestService {
         return itemDTO;
     }
 
+    // NOUVEAU : Mapper pour les fichiers
+    private QuoteRequestDTO.FileDTO mapFileToDTO(QuoteRequestFile file) {
+        QuoteRequestDTO.FileDTO fileDTO = new QuoteRequestDTO.FileDTO();
+        fileDTO.setId(file.getId());
+        fileDTO.setFileName(file.getOriginalName());
+        fileDTO.setFileType(file.getFileKind() != null ? file.getFileKind().name() : null);
+        fileDTO.setFilePath(file.getFilePath());
+        fileDTO.setMimeType(file.getMimeType());
+        fileDTO.setSizeBytes(file.getSizeBytes());
+        fileDTO.setUploadedAt(file.getUploadedAt());
+        fileDTO.setItemId(file.getRequestItem() != null ? file.getRequestItem().getId() : null);
+        return fileDTO;
+    }
 }

@@ -1,0 +1,308 @@
+<div class="min-h-screen bg-gray-50">
+  <!-- Header -->
+  <header class="bg-white shadow-sm border-b border-gray-200">
+    <div class="px-6 py-4">
+      <div class="flex justify-between items-center">
+        <div class="flex items-center space-x-4">
+          <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
+            <span class="text-white font-bold text-lg">MP</span>
+          </div>
+          <div>
+            <h1 class="text-xl font-semibold text-gray-900">Tableau de Bord MP</h1>
+            <p class="text-sm text-gray-500">Usinage de précision</p>
+          </div>
+        </div>
+        
+        <div class="flex items-center space-x-4">
+          <!-- Notifications -->
+          <button class="relative p-2 text-gray-600 hover:text-blue-600 transition-colors">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-5 5v-5zM10.24 8.56a5.97 5.97 0 01-4.66-6.24M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <span class="absolute top-0 right-0 w-3 h-3 bg-red-500 rounded-full"></span>
+          </button>
+          
+          <!-- User profile -->
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center">
+              <span class="text-white font-medium">M</span>
+            </div>
+            <span class="text-gray-700 font-medium">Michel</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="flex">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-white shadow-sm min-h-screen border-r border-gray-200">
+      <nav class="p-6 space-y-2">
+        <a class="flex items-center space-x-3 p-3 bg-blue-50 text-blue-600 rounded-lg font-medium">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+          </svg>
+          <span>Dashboard</span>
+        </a>
+        
+<a 
+  routerLink="/quote-template" 
+  routerLinkActive="bg-blue-50 text-blue-600"
+  class="flex items-center space-x-3 p-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors cursor-pointer">
+  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+      d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+  </svg>
+  <span>Devis</span>
+</a>
+
+        
+<a
+  routerLink="/dashboard-customer-admin"
+  routerLinkActive="bg-blue-50 text-blue-600"
+  [routerLinkActiveOptions]="{ exact: true }"
+  class="flex items-center space-x-3 p-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors cursor-pointer"
+>
+  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+  </svg>
+  <span>Clients</span>
+</a>
+
+        
+        <a class="flex items-center space-x-3 p-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+          </svg>
+          <span>Projets</span>
+        </a>
+        
+        <a class="flex items-center space-x-3 p-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+          </svg>
+          <span>Machines</span>
+        </a>
+        
+        <a class="flex items-center space-x-3 p-3 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+          <span>Planning</span>
+        </a>
+      </nav>
+    </aside>
+
+    <!-- Main content -->
+    <main class="flex-1 p-8">
+      <!-- Stats Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <!-- Devis en attente -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm font-medium text-gray-600">Devis en attente</p>
+              <p class="text-2xl font-bold text-gray-900 mt-1">12</p>
+            </div>
+            <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
+              <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+              </svg>
+            </div>
+          </div>
+          <div class="mt-4">
+            <span class="text-sm text-green-600 font-medium">+2 cette semaine</span>
+          </div>
+        </div>
+
+        <!-- Projets en cours -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm font-medium text-gray-600">Projets en cours</p>
+              <p class="text-2xl font-bold text-gray-900 mt-1">8</p>
+            </div>
+            <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+              <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+              </svg>
+            </div>
+          </div>
+          <div class="mt-4">
+            <span class="text-sm text-green-600 font-medium">3 à livrer cette semaine</span>
+          </div>
+        </div>
+
+        <!-- Chiffre d'affaires -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm font-medium text-gray-600">CA du mois</p>
+              <p class="text-2xl font-bold text-gray-900 mt-1">24.5k€</p>
+            </div>
+            <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+              <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+            </div>
+          </div>
+          <div class="mt-4">
+            <span class="text-sm text-green-600 font-medium">+15% vs mois dernier</span>
+          </div>
+        </div>
+
+        <!-- Machines actives -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm font-medium text-gray-600">Machines actives</p>
+              <p class="text-2xl font-bold text-gray-900 mt-1">6/8</p>
+            </div>
+            <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+              <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+              </svg>
+            </div>
+          </div>
+          <div class="mt-4">
+            <span class="text-sm text-red-600 font-medium">2 en maintenance</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <!-- Devis récents -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <div class="flex justify-between items-center mb-6">
+            <h2 class="text-lg font-semibold text-gray-900">Devis récents</h2>
+            <button class="text-sm text-blue-600 hover:text-blue-700 font-medium">Voir tout</button>
+          </div>
+          <div class="space-y-4">
+            <!-- Devis item -->
+            <div class="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg transition-colors">
+              <div>
+                <p class="font-medium text-gray-900">Pièce aéronautique AX-23</p>
+                <p class="text-sm text-gray-500">Client: AeroTech • 1,250€</p>
+              </div>
+              <span class="px-3 py-1 bg-yellow-100 text-yellow-800 text-xs font-medium rounded-full">En attente</span>
+            </div>
+            <div class="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg transition-colors">
+              <div>
+                <p class="font-medium text-gray-900">Engrenage médical</p>
+                <p class="text-sm text-gray-500">Client: MedInstrum • 3,420€</p>
+              </div>
+              <span class="px-3 py-1 bg-green-100 text-green-800 text-xs font-medium rounded-full">Accepté</span>
+            </div>
+            <div class="flex items-center justify-between p-3 hover:bg-gray-50 rounded-lg transition-colors">
+              <div>
+                <p class="font-medium text-gray-900">Arbre transmission</p>
+                <p class="text-sm text-gray-500">Client: AutoParts • 2,150€</p>
+              </div>
+              <span class="px-3 py-1 bg-blue-100 text-blue-800 text-xs font-medium rounded-full">En cours</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Projets en cours -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <div class="flex justify-between items-center mb-6">
+            <h2 class="text-lg font-semibold text-gray-900">Projets en cours</h2>
+            <button class="text-sm text-blue-600 hover:text-blue-700 font-medium">Voir tout</button>
+          </div>
+          <div class="space-y-4">
+            <!-- Projet item -->
+            <div class="p-3 hover:bg-gray-50 rounded-lg transition-colors">
+              <div class="flex justify-between items-start mb-2">
+                <p class="font-medium text-gray-900">Série pièces agroalimentaire</p>
+                <span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs font-medium rounded">75%</span>
+              </div>
+              <p class="text-sm text-gray-500 mb-3">Client: FoodProcess • 50 pièces</p>
+              <div class="w-full bg-gray-200 rounded-full h-2">
+                <div class="bg-blue-600 h-2 rounded-full" style="width: 75%"></div>
+              </div>
+            </div>
+            <div class="p-3 hover:bg-gray-50 rounded-lg transition-colors">
+              <div class="flex justify-between items-start mb-2">
+                <p class="font-medium text-gray-900">Prototype médical</p>
+                <span class="px-2 py-1 bg-green-100 text-green-800 text-xs font-medium rounded">90%</span>
+              </div>
+              <p class="text-sm text-gray-500 mb-3">Client: HealthTech • 1 pièce</p>
+              <div class="w-full bg-gray-200 rounded-full h-2">
+                <div class="bg-green-600 h-2 rounded-full" style="width: 90%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Actions rapides -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <h2 class="text-lg font-semibold text-gray-900 mb-6">Actions rapides</h2>
+          <div class="grid grid-cols-2 gap-4">
+            <button class="p-4 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors text-center group">
+              <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center mx-auto mb-2 group-hover:bg-blue-700 transition-colors">
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                </svg>
+              </div>
+              <span class="text-sm font-medium text-gray-700">Nouveau devis</span>
+            </button>
+            <button class="p-4 bg-green-50 hover:bg-green-100 rounded-lg transition-colors text-center group">
+              <div class="w-10 h-10 bg-green-600 rounded-lg flex items-center justify-center mx-auto mb-2 group-hover:bg-green-700 transition-colors">
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+                </svg>
+              </div>
+              <span class="text-sm font-medium text-gray-700">Nouveau client</span>
+            </button>
+            <button class="p-4 bg-purple-50 hover:bg-purple-100 rounded-lg transition-colors text-center group">
+              <div class="w-10 h-10 bg-purple-600 rounded-lg flex items-center justify-center mx-auto mb-2 group-hover:bg-purple-700 transition-colors">
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                </svg>
+              </div>
+              <span class="text-sm font-medium text-gray-700">Nouveau projet</span>
+            </button>
+            <button class="p-4 bg-orange-50 hover:bg-orange-100 rounded-lg transition-colors text-center group">
+              <div class="w-10 h-10 bg-orange-600 rounded-lg flex items-center justify-center mx-auto mb-2 group-hover:bg-orange-700 transition-colors">
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                </svg>
+              </div>
+              <span class="text-sm font-medium text-gray-700">Rapport</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Planning du jour -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <h2 class="text-lg font-semibold text-gray-900 mb-6">Planning du jour</h2>
+          <div class="space-y-4">
+            <div class="flex items-center space-x-4 p-3 hover:bg-gray-50 rounded-lg transition-colors">
+              <div class="w-2 h-10 bg-blue-600 rounded-full"></div>
+              <div class="flex-1">
+                <p class="font-medium text-gray-900">Contrôle qualité - Pièce Aero</p>
+                <p class="text-sm text-gray-500">09:00 - 10:30 • CNC-1</p>
+              </div>
+            </div>
+            <div class="flex items-center space-x-4 p-3 hover:bg-gray-50 rounded-lg transition-colors">
+              <div class="w-2 h-10 bg-green-600 rounded-full"></div>
+              <div class="flex-1">
+                <p class="font-medium text-gray-900">Lancement série agro</p>
+                <p class="text-sm text-gray-500">11:00 - 12:30 • CNC-3</p>
+              </div>
+            </div>
+            <div class="flex items-center space-x-4 p-3 hover:bg-gray-50 rounded-lg transition-colors">
+              <div class="w-2 h-10 bg-purple-600 rounded-full"></div>
+              <div class="flex-1">
+                <p class="font-medium text-gray-900">Réunion client MedTech</p>
+                <p class="text-sm text-gray-500">14:00 - 15:00 • Bureau</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>

@@ -18,7 +18,7 @@ public class QuoteRequest {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "client_id") // nullable = true (ON DELETE SET NULL)
+    @JoinColumn(name = "client_id")
     private Client client;
 
     @Column(name = "statut", length = 30)

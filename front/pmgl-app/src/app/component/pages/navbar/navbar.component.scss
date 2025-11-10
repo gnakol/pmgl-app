@@ -1,0 +1,33 @@
+// src/app/component/pages/navbar/navbar.component.scss
+:host {
+  display: block;
+}
+
+// Assurer un bon espacement et alignement
+nav {
+  .max-w-7xl {
+    width: 100%;
+  }
+}
+
+// Pour les écrans larges
+@media (min-width: 768px) {
+  .flex-1 {
+    flex: 1;
+  }
+  
+  .mx-8 {
+    margin-left: 2rem;
+    margin-right: 2rem;
+  }
+}
+
+// Empêcher le retour à la ligne
+.whitespace-nowrap {
+  white-space: nowrap;
+}
+
+// Améliorer l'espacement des boutons
+.gap-4 > * {
+  margin: 0;
+}

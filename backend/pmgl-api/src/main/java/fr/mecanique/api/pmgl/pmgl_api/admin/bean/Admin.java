@@ -1,5 +1,6 @@
 package fr.mecanique.api.pmgl.pmgl_api.admin.bean;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import fr.mecanique.api.pmgl.pmgl_api.account.bean.Account;
 import fr.mecanique.api.pmgl.pmgl_api.admin.enums.AdminRole;
 import jakarta.persistence.*;
@@ -17,6 +18,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Builder
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table(name = "admin")
 public class Admin {
 

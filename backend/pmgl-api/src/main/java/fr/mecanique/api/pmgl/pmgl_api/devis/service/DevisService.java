@@ -7,10 +7,13 @@ import fr.mecanique.api.pmgl.pmgl_api.client.bean.Client;
 import fr.mecanique.api.pmgl.pmgl_api.client.repositorie.ClientRepository;
 import fr.mecanique.api.pmgl.pmgl_api.devis.bean.Devis;
 import fr.mecanique.api.pmgl.pmgl_api.devis.bean.LigneDevis;
+import fr.mecanique.api.pmgl.pmgl_api.devis.dto.DevissDTO;
 import fr.mecanique.api.pmgl.pmgl_api.devis.enums.DevisStatut;
 import fr.mecanique.api.pmgl.pmgl_api.devis.mail.MailServiceDevis;
+import fr.mecanique.api.pmgl.pmgl_api.devis.mappers.DevisMapper;
 import fr.mecanique.api.pmgl.pmgl_api.devis.repositorie.DevisRepository;
 import fr.mecanique.api.pmgl.pmgl_api.devis.repositorie.LigneDevisRepository;
+import fr.mecanique.api.pmgl.pmgl_api.devis.webservice.DevisWebservice;
 import fr.mecanique.api.pmgl.pmgl_api.quote_request.bean.QuoteRequest;
 import fr.mecanique.api.pmgl.pmgl_api.quote_request.repositories.QuoteRequestRepository;
 import fr.mecanique.api.pmgl.pmgl_api.security.JwtService;
@@ -29,13 +32,14 @@ import java.util.*;
 
 @Service
 @RequiredArgsConstructor
-public class DevisService {
+public class DevisService implements DevisWebservice<DevissDTO> {
 
     private final DevisRepository devisRepository;
     private final LigneDevisRepository ligneDevisRepository;
     private final ClientRepository clientRepository;
     private final AdminRepository adminRepository;
     private final QuoteRequestRepository quoteRequestRepository;
+    private final DevisMapper devisMapper;
 
     private final
     MailServiceDevis mailServiceDevis;
@@ -130,10 +134,6 @@ public class DevisService {
         return "DEV-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
     }
 
-    public Page<Devis> all(Pageable pageable) {
-        return this.devisRepository.findAll(pageable);
-    }
-
     @Transactional
     public void deleteDevis(Integer devisId) {
         Devis devis = devisRepository.findById(devisId)
@@ -141,5 +141,11 @@ public class DevisService {
 
         // Suppression en cascade des lignes de devis grâce au orphanRemoval = true
         devisRepository.delete(devis);
+    }
+
+    @Override
+    public Page<DevissDTO> all(Pageable pageable) {
+        return this.devisRepository.findAll(pageable)
+                .map(this.devisMapper::fromDevis);
     }
 }

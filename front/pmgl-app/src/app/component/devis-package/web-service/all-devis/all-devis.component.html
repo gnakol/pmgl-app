@@ -1,0 +1,127 @@
+<!-- src/app/component/devis-package/web-service/all-devis/all-devis.component.html -->
+<div class="min-h-screen bg-gray-50 p-6">
+  <!-- Header + stats -->
+  <div class="mb-8">
+    <div class="flex justify-between items-start mb-6">
+      <div>
+        <h1 class="text-3xl font-bold text-gray-900">Cockpit Devis</h1>
+        <p class="text-gray-600 mt-2">Gérez vos devis et suivez leur statut</p>
+      </div>
+
+      <div class="flex items-center gap-4">
+        <div class="px-4 py-2 bg-white rounded-xl shadow">
+          <div class="text-sm text-gray-500">Connecté</div>
+          <div class="font-semibold">
+            {{ adminAccount?.civility || '' }}
+            {{ adminAccount?.firstName || '' }}
+            {{ adminAccount?.lastName || '' }}
+          </div>
+        </div>
+        <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">Nouveau Devis</button>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-4 gap-4">
+      <div class="bg-white rounded-xl p-4 shadow">
+        <div class="text-gray-500 text-sm">En attente</div>
+        <div class="text-2xl font-bold">{{ enAttente }}</div>
+      </div>
+      <div class="bg-white rounded-xl p-4 shadow">
+        <div class="text-gray-500 text-sm">En cours</div>
+        <div class="text-2xl font-bold">{{ enCours }}</div>
+      </div>
+      <div class="bg-white rounded-xl p-4 shadow">
+        <div class="text-gray-500 text-sm">Acceptés</div>
+        <div class="text-2xl font-bold text-emerald-600">{{ acceptes }}</div>
+      </div>
+      <div class="bg-white rounded-xl p-4 shadow">
+        <div class="text-gray-500 text-sm">CA Total</div>
+        <div class="text-2xl font-bold">{{ caTotal | number:'1.0-0' }}€</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filtres (placeholder simple) -->
+  <div class="mb-4 flex gap-3">
+    <input type="text" class="w-full bg-white rounded-lg px-3 py-2 border border-gray-200" placeholder="Rechercher... (à implémenter)" />
+    <button class="px-3 py-2 bg-white rounded-lg border border-gray-200">Filtres</button>
+  </div>
+
+  <!-- Liste -->
+  <div *ngIf="loading" class="text-gray-500">Chargement...</div>
+  <div *ngIf="error" class="text-rose-600">{{ error }}</div>
+
+  <div class="space-y-4" *ngIf="data">
+    <div *ngFor="let d of data.content; trackBy: trackById"
+         class="bg-white rounded-2xl shadow p-4 border border-gray-100">
+      <div class="flex justify-between items-start">
+        <div>
+          <div class="flex items-center gap-3">
+            <h3 class="text-lg font-semibold text-gray-900">{{ titleFromDevis(d) }}</h3>
+            <span class="px-2 py-1 rounded-full text-xs font-medium" [ngClass]="statutBadgeClass(d.statut)">
+              {{ d.statut }}
+            </span>
+          </div>
+
+          <div class="mt-2 grid grid-cols-5 gap-6 text-sm text-gray-600">
+            <div>
+              <div class="text-gray-500">Client ID</div>
+              <div class="font-medium">{{ d.clientId }}</div>
+            </div>
+            <div>
+              <div class="text-gray-500">Quantité</div>
+              <div class="font-medium">{{ quantiteFromDevis(d) }} pièce(s)</div>
+            </div>
+            <div>
+              <div class="text-gray-500">Validité</div>
+              <div class="font-medium">{{ d.dateValidite || '—' }}</div>
+            </div>
+            <div>
+              <div class="text-gray-500">Montant HT</div>
+              <div class="font-medium">{{ d.montantHt | number:'1.0-2' }} €</div>
+            </div>
+            <div>
+              <div class="text-gray-500">Créé</div>
+              <div class="font-medium">{{ d.dateCreation | date:'medium' }}</div>
+            </div>
+          </div>
+
+          <div class="mt-2 text-xs text-gray-500">
+            N° {{ d.numeroDevis }} • TVA {{ d.tva }}%
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <button class="p-2 rounded hover:bg-gray-100" title="Modifier">
+            <span class="material-icons">edit</span>
+          </button>
+          <button class="p-2 rounded hover:bg-gray-100" title="Dupliquer">
+            <span class="material-icons">content_copy</span>
+          </button>
+
+<!-- SUPPRIMER -->
+<button
+  class="p-2 rounded hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
+  title="Supprimer"
+  (click)="onDelete(d)"
+  [disabled]="isDeleting(d)">
+  <span class="material-icons" *ngIf="!isDeleting(d)">delete</span>
+  <span class="material-icons animate-pulse" *ngIf="isDeleting(d)">hourglass_top</span>
+</button>
+
+
+          <button class="ml-3 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">Traiter</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pagination -->
+    <div class="flex justify-between items-center mt-4">
+      <button class="px-3 py-2 rounded border" (click)="prev()" [disabled]="data.first">Précédent</button>
+      <div class="text-sm text-gray-600">
+        Page {{ (data.number + 1) }} / {{ data.totalPages }} • {{ data.totalElements }} élément(s)
+      </div>
+      <button class="px-3 py-2 rounded border" (click)="next()" [disabled]="data.last">Suivant</button>
+    </div>
+  </div>
+</div>

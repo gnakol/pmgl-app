@@ -1,5 +1,6 @@
 package fr.mecanique.api.pmgl.pmgl_api.client.bean;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import fr.mecanique.api.pmgl.pmgl_api.account.bean.Account;
 import fr.mecanique.api.pmgl.pmgl_api.client.enums.TypeClient;
 import jakarta.persistence.*;
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "client")
 @Data
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder

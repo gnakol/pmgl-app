@@ -88,6 +88,7 @@ export class QuoteRequestComponent {
     return this.fb.group({
       // Étape 1
       civility: ['', Validators.required],
+      adresse: ['', Validators.required],
       firstName: ['', [Validators.required, Validators.minLength(2)]],
       lastName: ['', [Validators.required, Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.email]],
@@ -267,6 +268,7 @@ export class QuoteRequestComponent {
       const request: CreateQuoteRequestDTO = {
         applicant: {
           civility: formValue.civility,
+          adresse: formValue.adresse,
           firstName: formValue.firstName,
           lastName: formValue.lastName,
           email: formValue.email,

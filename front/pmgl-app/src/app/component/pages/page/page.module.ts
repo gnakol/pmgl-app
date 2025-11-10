@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { QuoteRequestComponent } from '../../quote-package/quote-request/quote-request.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { LoginComponent } from '../../customer-package/authenticate/login/login.component';
 
 @NgModule({
   declarations: [
@@ -12,7 +13,8 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
-    QuoteRequestComponent
+    QuoteRequestComponent,
+    LoginComponent
   ],
   exports: [
     NavbarComponent
